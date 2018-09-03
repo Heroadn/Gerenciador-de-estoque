@@ -6,8 +6,8 @@ import javax.swing.JFrame;
 import javax.swing.JPanel;
 import javax.swing.border.EmptyBorder;
 
-import Classes.Coisa;
-import Listas.ListaCoisas;
+import Classes.Produtos;
+import Listas.ListaProduto;
 import javax.swing.JTextField;
 import javax.swing.JLabel;
 import javax.swing.JButton;
@@ -25,7 +25,7 @@ public class CadastroProduto extends JFrame {
 	private JTextField valor_campo;
 	private JButton btnEnviar;
 
-	public CadastroProduto(ListaCoisas lc) {
+	public CadastroProduto(ListaProduto lc) {
 		textField.setColumns(10);
 		setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
 		setBounds(100, 100, 387, 261);
@@ -57,11 +57,11 @@ public class CadastroProduto extends JFrame {
 		btnEnviar = new JButton("Enviar");
 		btnEnviar.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				Coisa c = new Coisa();
+				Produtos c = new Produtos();
 				c.setNome(nome_campo.getText());
 				c.setValor(Integer.parseInt(valor_campo.getText()));
 				//Adicionando na lista
-				lc.addCoisa(c);
+				lc.addProduto(c);
 				
 				nome_campo.setText("");
 				valor_campo.setText("");

@@ -7,7 +7,7 @@ import javax.swing.JPanel;
 import javax.swing.border.EmptyBorder;
 
 import Classes.Pessoa;
-import Listas.ListaPessoas;
+import Listas.ListaPessoa;
 
 import javax.swing.JTextField;
 import javax.swing.JLabel;
@@ -23,7 +23,7 @@ public class CadastroPessoas extends JFrame {
 
 	/*Funçao que recebe uma lista de pessoas do JMenu
 	 compartilhando com o resto das janelas*/
-	public CadastroPessoas(ListaPessoas lp) {
+	public CadastroPessoas(ListaPessoa lp) {
 		setAlwaysOnTop(true);
 		setTitle("Cadastro de Cliente");
 		setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);

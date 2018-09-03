@@ -1,6 +1,5 @@
 package Janelas;
 
-import java.awt.BorderLayout;
 import java.awt.EventQueue;
 
 import javax.swing.JFrame;
@@ -9,9 +8,7 @@ import javax.swing.JScrollPane;
 import javax.swing.border.EmptyBorder;
 import javax.swing.table.DefaultTableModel;
 
-import Classes.Pessoa;
-import Listas.ListaCoisas;
-import Listas.ListaPessoas;
+import Listas.ListaPessoa;
 
 import javax.swing.JTable;
 import javax.swing.JButton;
@@ -22,18 +19,14 @@ import java.awt.event.ActionEvent;
 
 public class ListagemPessoa extends JFrame {
 
+	private static final long serialVersionUID = 1L;
 	private JPanel contentPane;
+	
 	private JTable table;
 	private DefaultTableModel tm;
 	private JButton btnDelete;
-	private boolean stop;
-	private JButton btnPessoas;
-	private JButton btnCoisas;
 
-	/**
-	 * Create the frame.
-	 */
-	public ListagemPessoa(ListaPessoas lp) {
+	public ListagemPessoa(ListaPessoa lp) {
 		setTitle("Pessoas");
 			setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
 			setBounds(100, 100, 941, 472);
@@ -41,7 +34,7 @@ public class ListagemPessoa extends JFrame {
 			contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
 			setContentPane(contentPane);
 			contentPane.setLayout(null);
-			setLocationRelativeTo(null);
+			setLocationRelativeTo(null);//para o frame ficar no meio da tela
 			
 			JScrollPane scrollPane = new JScrollPane();
 			scrollPane.setBounds(35, 54, 861, 263);
@@ -75,7 +68,7 @@ public class ListagemPessoa extends JFrame {
 			
 			btnDelete = new JButton("Delete");
 			btnDelete.addActionListener(new ActionListener() {
-				//REMOVE
+				//Deleta a Row --Mas atenção nao deleta do banco de dados
 				public void actionPerformed(ActionEvent e) {
 					if (tm.getRowCount()>0) {
 						tm.removeRow(table.getSelectedRow());
@@ -85,9 +78,12 @@ public class ListagemPessoa extends JFrame {
 			btnDelete.setBounds(152, 328, 89, 23);
 			contentPane.add(btnDelete);
 			
+			//Volta para o JMenu
 			JButton btnVoltar = new JButton("Voltar");
 			btnVoltar.addActionListener(new ActionListener() {
 				public void actionPerformed(ActionEvent e) {
+					
+					//Cria a janela JMenu
 					EventQueue.invokeLater(new Runnable() {
 						public void run() {
 							try {
@@ -105,7 +101,7 @@ public class ListagemPessoa extends JFrame {
 			contentPane.add(btnVoltar);
 	}
 	
-	public void loadtable(ListaPessoas lp) {
+	public void loadtable(ListaPessoa lp) {
 		ResultSet rs = lp.getPessoaSelect();
 		try {
 			while(rs.next()){

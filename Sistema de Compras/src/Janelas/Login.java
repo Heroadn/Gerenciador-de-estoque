@@ -1,16 +1,12 @@
 package Janelas;
 
-import java.awt.BorderLayout;
 import java.awt.EventQueue;
 
 import javax.swing.JFrame;
 import javax.swing.JPanel;
 import javax.swing.border.EmptyBorder;
 
-import Listas.ListaAdmin;
-import Listas.ListaCoisas;
-import Listas.ListaPessoas;
-
+import Listas.ListaUser;
 import javax.swing.JButton;
 import java.awt.event.ActionListener;
 import java.sql.ResultSet;
@@ -22,9 +18,11 @@ import javax.swing.JOptionPane;
 
 import java.awt.Font;
 import java.awt.HeadlessException;
+import javax.swing.JPasswordField;
 
 public class Login extends JFrame {
 
+	private static final long serialVersionUID = 1L;
 	private JPanel contentPane;
 	private JTextField nome_campo;
 	private JTextField senha_campo;
@@ -46,8 +44,6 @@ public class Login extends JFrame {
 	}
 
 	public Login() {
-		ListaAdmin ad = new ListaAdmin();
-		
 		setTitle("Login");
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		setBounds(100, 100, 450, 300);
@@ -61,50 +57,26 @@ public class Login extends JFrame {
 		JButton btnNewButton = new JButton("Acessar");
 		btnNewButton.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				ResultSet rs = ad.getAdmins();
-				
-				try {
-					while(rs.next()){
-						//verifica as credencias, se elas baterem com a do banco , redirecione a listagem de pessoas
-						if(nome_campo.getText().equalsIgnoreCase(rs.getString("nome")) && senha_campo.getText().equalsIgnoreCase(rs.getString("senha"))){
-							dispose();
-							
-							EventQueue.invokeLater(new Runnable() {
-								public void run() {
-									try {
-										JMenu frame = new JMenu();
-										frame.setVisible(true);
-									} catch (Exception e) {
-										e.printStackTrace();
-									}
-								}
-							});
-							
-						}else {
-							//se as credencias nao baterem com a do banco de dados
-							if(rs.isLast()) {
-								JOptionPane.showMessageDialog(null, "Por favor verifique as informaçoes digitadas.", "Erro:",JOptionPane.WARNING_MESSAGE);
-							}
-						}
-					}
-				} catch (HeadlessException | SQLException e1) {
-					System.out.println("Error: "+e1.getMessage());
-				}
+				//Metodo de login
+				login(nome_campo.getText(),senha_campo.getText());
 			}
 		});
 		btnNewButton.setBounds(86, 193, 235, 38);
 		contentPane.add(btnNewButton);
 		
+		//JTextFild
 		nome_campo = new JTextField();
 		nome_campo.setBounds(166, 85, 155, 27);
 		contentPane.add(nome_campo);
 		nome_campo.setColumns(10);
 		
-		senha_campo = new JTextField();
-		senha_campo.setColumns(10);
-		senha_campo.setBounds(166, 141, 155, 27);
+		//JPasswordField para a Senha
+		senha_campo = new JPasswordField();
+		senha_campo.setBounds(166, 137, 155, 27);
 		contentPane.add(senha_campo);
+		//
 		
+		//Criação dos labels
 		JLabel nome = new JLabel("Nome:");
 		nome.setBounds(86, 88, 52, 20);
 		contentPane.add(nome);
@@ -118,4 +90,39 @@ public class Login extends JFrame {
 		login.setBounds(86, 24, 122, 37);
 		contentPane.add(login);
 	}
+	
+	//Metodo que confere as informaçoes e redicreciona a JMenu
+	public void login(String nome,	String senha) {
+		try {
+			//Peguando os Usuarios do Banco de Dados
+			ListaUser user = new ListaUser();
+			
+			//Fazendo Busca no banco de dados
+			ResultSet rs = user.getUser(nome, senha);
+			
+			if(rs.first()){
+				if(nome.equalsIgnoreCase(rs.getString("nome")) && senha.equalsIgnoreCase(rs.getString("senha")) ){
+					//Chamada do JMenu que contem os botes que levam a ListagemPessoas e ListagemCoisas
+					EventQueue.invokeLater(new Runnable() {	
+						public void run() {
+							try {
+								JMenu frame = new JMenu();
+								frame.setVisible(true);
+								dispose();
+							} catch (Exception e) {
+								e.printStackTrace();
+							}
+						}
+					});
+				}else {
+					JOptionPane.showMessageDialog(null, "Por favor verifique as informaçoes digitadas.", "Erro:",JOptionPane.WARNING_MESSAGE);
+				}
+			}
+			
+		} catch (HeadlessException | SQLException e1) {
+			//Se for encontrado um erro com o banco de dados
+			System.out.println("Error: "+e1.getMessage());
+		}
+	}
+	
 }

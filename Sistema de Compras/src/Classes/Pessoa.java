@@ -10,7 +10,7 @@ public class Pessoa {
 	
 	String nome;
 	
-	LinkedList<Coisa> lista;		
+	LinkedList<Produtos> lista;		
 
 	public int getCod() {
 		return cod;
@@ -36,11 +36,11 @@ public class Pessoa {
 		this.nome = nome;
 	}
 
-	public LinkedList<Coisa> getLista() {
+	public LinkedList<Produtos> getLista() {
 		return lista;
 	}
 
-	public void setLista(LinkedList<Coisa> lista) {
+	public void setLista(LinkedList<Produtos> lista) {
 		this.lista = lista;
 	}
 

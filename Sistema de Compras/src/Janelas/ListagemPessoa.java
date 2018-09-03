@@ -65,7 +65,7 @@ public class ListagemPessoa extends JFrame {
 			JButton btnAdd = new JButton("Add");
 			btnAdd.addActionListener(new ActionListener() {
 				public void actionPerformed(ActionEvent e) {
-					//pegua como paramentros lista de pessoas, e lista de coisas
+					//pegua como paramentros lista de pessoas
 					CadastroPessoas frame = new CadastroPessoas(lp);
 					frame.setVisible(true);
 				}

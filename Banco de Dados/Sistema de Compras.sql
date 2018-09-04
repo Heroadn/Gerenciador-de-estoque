@@ -1,48 +1,42 @@
-##HEROADN 02/09/2018##
+##HEROADN 03/09/2018##
 CREATE SCHEMA sistema;
 USE sistema;
 
-####################
-#TABELA DE CLIENTES#
-####################
-create table `pessoa`(
+#######################
+#  TABELA DE CLIENTE  #
+#######################
+create table `cliente`(
 	cod integer primary key auto_increment not null,
     nome varchar(30) not null,
-    idade integer not null
+    idade integer not null,
+	senha varchar(32) not null,
+	tipo  integer not null#0 para USER comum, 1 para ADMIN
 );
 
-#########################
-#   TABELA DE PRODUTOS  #
-#########################
+##########################
+#   TABELA DE PRODUTOS   #
+##########################
 create table `produto`(
 	cod integer primary key auto_increment,
     nome varchar(30) not null,
     valor integer not null
 );
 
-########################
-#   TABELA DE COMPRAS  #
-########################
+#########################
+#   TABELA DE COMPRAS   #
+#########################
 create table pessoas_produto(
 	cod integer primary key auto_increment not null,
-    id_pessoa integer not null,
+    id_cliente integer not null,
     id_produto integer not null,
-    FOREIGN KEY (id_pessoa )  REFERENCES pessoa(cod),
-    FOREIGN KEY (id_produto)  REFERENCES produto(cod)
-);
-
-###########################
-#    TABELA DE USUARIOS   #
-###########################
-create table `usuario`(
-	id integer primary key auto_increment,
-    nome varchar(20) not null,
-    senha varchar(32) not null,
-    tipo integer not null#0 para USER comum, 1 para ADMIN
+    FOREIGN KEY (id_cliente )  REFERENCES cliente(cod),
+    FOREIGN KEY (id_produto)  REFERENCES  produto(cod)
 );
 
 #USER
-INSERT INTO `usuario`(nome, senha, tipo) VALUES("default","123",0);
+INSERT INTO `cliente`(nome, idade,senha ,tipo ) VALUES("default","21","202cb962ac59075b964b07152d234b70",0);#senha 123
 
 #ADMIN
-INSERT INTO `usuario`(nome, senha, tipo) VALUES("admin","123",1);
+INSERT INTO `cliente`(nome, idade,senha ,tipo ) VALUES("admin"  ,"31","202cb962ac59075b964b07152d234b70",1);#senha 123
+
+SELECT * FROM `cliente`;

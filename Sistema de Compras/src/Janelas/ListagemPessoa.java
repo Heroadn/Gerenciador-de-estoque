@@ -8,7 +8,7 @@ import javax.swing.JScrollPane;
 import javax.swing.border.EmptyBorder;
 import javax.swing.table.DefaultTableModel;
 
-import Listas.ListaPessoa;
+import Listas.ListaCliente;
 
 import javax.swing.JTable;
 import javax.swing.JButton;
@@ -26,7 +26,7 @@ public class ListagemPessoa extends JFrame {
 	private DefaultTableModel tm;
 	private JButton btnDelete;
 
-	public ListagemPessoa(ListaPessoa lp) {
+	public ListagemPessoa(ListaCliente lp) {
 		setTitle("Pessoas");
 			setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
 			setBounds(100, 100, 941, 472);
@@ -52,14 +52,15 @@ public class ListagemPessoa extends JFrame {
 			table.setModel(tm);
 			scrollPane.setViewportView(table);
 			
-			loadtable(lp);
+			//Inserido o conteudo na JTable
+			insertRow(lp);
 			
 			//Adiciona a pessoa no banco de dados
 			JButton btnAdd = new JButton("Add");
 			btnAdd.addActionListener(new ActionListener() {
 				public void actionPerformed(ActionEvent e) {
-					//pegua como paramentros lista de pessoas
-					CadastroPessoas frame = new CadastroPessoas(lp);
+					//Pegua como paramentros lista de pessoas
+					CadastroCliente frame = new CadastroCliente(lp);
 					frame.setVisible(true);
 				}
 			});
@@ -101,7 +102,8 @@ public class ListagemPessoa extends JFrame {
 			contentPane.add(btnVoltar);
 	}
 	
-	public void loadtable(ListaPessoa lp) {
+	//Insere na tabela o conteudo do banco de dados referente a Pessoas
+	public void insertRow(ListaCliente lp) {
 		ResultSet rs = lp.getPessoaSelect();
 		try {
 			while(rs.next()){

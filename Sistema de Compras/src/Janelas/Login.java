@@ -6,7 +6,7 @@ import javax.swing.JFrame;
 import javax.swing.JPanel;
 import javax.swing.border.EmptyBorder;
 
-import Listas.ListaUser;
+import Listas.ListaConta;
 import javax.swing.JButton;
 import java.awt.event.ActionListener;
 import java.sql.ResultSet;
@@ -58,7 +58,7 @@ public class Login extends JFrame {
 		btnNewButton.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				//Metodo de login
-				login(nome_campo.getText(),senha_campo.getText());
+				login(nome_campo.getText(), senha_campo.getText());
 			}
 		});
 		btnNewButton.setBounds(86, 193, 235, 38);
@@ -91,37 +91,40 @@ public class Login extends JFrame {
 		contentPane.add(login);
 	}
 	
-	//Metodo que confere as informaçoes e redicreciona a JMenu
+	//Metodo que confere as informaçoes e redicreciona a JMenu se o login existir no DB
 	public void login(String nome,	String senha) {
+		//Peguando os Usuarios do Banco de Dados
+		ListaConta user = new ListaConta();
+		
 		try {
-			//Peguando os Usuarios do Banco de Dados
-			ListaUser user = new ListaUser();
-			
 			//Fazendo Busca no banco de dados
-			ResultSet rs = user.getUser(nome, senha);
+			ResultSet rs = user.getUser(nome, user.criptografar(senha));
 			
+			//Peguar o  primeiro resultado do ResultSet
 			if(rs.first()){
-				if(nome.equalsIgnoreCase(rs.getString("nome")) && senha.equalsIgnoreCase(rs.getString("senha")) ){
+				if(nome.equalsIgnoreCase(rs.getString("nome")) && user.criptografar(senha).equalsIgnoreCase(rs.getString("senha")) ){
 					//Chamada do JMenu que contem os botes que levam a ListagemPessoas e ListagemCoisas
 					EventQueue.invokeLater(new Runnable() {	
 						public void run() {
 							try {
 								JMenu frame = new JMenu();
 								frame.setVisible(true);
+								
+								//Fechar a tela mas manter o programa ativo
 								dispose();
 							} catch (Exception e) {
 								e.printStackTrace();
 							}
 						}
 					});
-				}else {
-					JOptionPane.showMessageDialog(null, "Por favor verifique as informaçoes digitadas.", "Erro:",JOptionPane.WARNING_MESSAGE);
 				}
+			}else {
+				JOptionPane.showMessageDialog(null, "Por favor verifique as informaçoes digitadas.", "Erro:",JOptionPane.WARNING_MESSAGE);
 			}
 			
 		} catch (HeadlessException | SQLException e1) {
 			//Se for encontrado um erro com o banco de dados
-			System.out.println("Error: "+e1.getMessage());
+			System.out.println("Login: "+"Error: "+e1.getMessage());
 		}
 	}
 	

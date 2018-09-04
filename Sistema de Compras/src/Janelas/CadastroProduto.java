@@ -6,7 +6,7 @@ import javax.swing.JFrame;
 import javax.swing.JPanel;
 import javax.swing.border.EmptyBorder;
 
-import Classes.Produtos;
+import Classes.Produto;
 import Listas.ListaProduto;
 import javax.swing.JTextField;
 import javax.swing.JLabel;
@@ -57,7 +57,7 @@ public class CadastroProduto extends JFrame {
 		btnEnviar = new JButton("Enviar");
 		btnEnviar.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				Produtos c = new Produtos();
+				Produto c = new Produto();
 				c.setNome(nome_campo.getText());
 				c.setValor(Integer.parseInt(valor_campo.getText()));
 				//Adicionando na lista

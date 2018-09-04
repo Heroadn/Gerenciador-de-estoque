@@ -5,13 +5,13 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
-import Classes.Produtos;
+import Classes.Produto;
 import Classes.DBUtils;
 
 public class ListaProduto {
 
 	//Adicionar coisas a lista
-	public void addProduto(Produtos e) {
+	public void addProduto(Produto e) {
 		//Inicia a conexao com banco de dados
 		Connection conexao = DBUtils.getConexao();
 		String sql = "insert into produto " +

@@ -55,8 +55,8 @@ public class ListagemProduto extends JFrame {
 		table.setModel(tm);
 		scrollPane.setViewportView(table);
 		
-		//Carrega do banco de dados os produtos e poe na tabela
-		loadtable(lc);
+		//Inserido o conteudo na JTable
+		insertRow(lc);
 		
 		//Adiciona  a pessoa no banco de dados
 		JButton btnAdd = new JButton("Add");
@@ -106,8 +106,8 @@ public class ListagemProduto extends JFrame {
 		contentPane.add(btnVoltar);
 }
 
-//Carrega do banco de dados os produtos
-public void loadtable(ListaProduto lc) {
+//Insere na tabela o conteudo do banco de dados referente a Produtos
+public void insertRow(ListaProduto lc) {
 	ResultSet rs = lc.getProdutoSelect();
 	try {
 		while(rs.next()){

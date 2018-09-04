@@ -5,7 +5,7 @@ import javax.swing.JPanel;
 import javax.swing.border.EmptyBorder;
 
 import Listas.ListaProduto;
-import Listas.ListaPessoa;
+import Listas.ListaCliente;
 
 import javax.swing.JButton;
 import java.awt.event.ActionListener;
@@ -17,7 +17,7 @@ public class JMenu extends JFrame {
 	private JPanel contentPane;
 	
 	//Lista de Pessoas
-	private ListaPessoa lista_pessoas = new ListaPessoa();
+	private ListaCliente lista_pessoas = new ListaCliente();
 	
 	//Lista de Coisas
 	private ListaProduto  lista_coisas =  new ListaProduto();

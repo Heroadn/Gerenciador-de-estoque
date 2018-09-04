@@ -1,6 +1,7 @@
 /*Classe Responsavel por conter a lista de Pessoas Cadastradas*/
 package Listas;
 
+import java.io.UnsupportedEncodingException;
 import java.math.BigInteger;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
@@ -40,17 +41,18 @@ public class ListaCliente {
 		
 	}
 	
-	//Criptografar a senha em MD5
+	//Criptografar a senha em SHA-2
 	public String criptografar(String senha) {
 		MessageDigest m = null;
 		String cript    = null;
 		
 		try {
-			m = MessageDigest.getInstance("MD5");//Substituir para sha-2
-			m.update(senha.getBytes(),0,senha.length());
+			m = MessageDigest.getInstance("SHA-256");
+			m.update(senha.getBytes("UTF-8"),0,senha.length());
 			cript = new BigInteger(1,m.digest()).toString(16);
-		} catch (NoSuchAlgorithmException e) {
-			e.printStackTrace();
+		} catch (NoSuchAlgorithmException | UnsupportedEncodingException e) {
+			System.out.println("ListaCliente: "+"Erro: "+e.getMessage());
+			
 		}
 		
 		return cript;

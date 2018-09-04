@@ -9,7 +9,7 @@ create table `cliente`(
 	cod integer primary key auto_increment not null,
     nome varchar(30) not null,
     idade integer not null,
-	senha varchar(32) not null,
+	senha varchar(64) not null,
 	tipo  integer not null#0 para USER comum, 1 para ADMIN
 );
 
@@ -34,9 +34,9 @@ create table pessoas_produto(
 );
 
 #USER
-INSERT INTO `cliente`(nome, idade,senha ,tipo ) VALUES("default","21","202cb962ac59075b964b07152d234b70",0);#senha 123
+INSERT INTO `cliente`(nome, idade,senha ,tipo ) VALUES("default","21","a665a45920422f9d417e4867efdc4fb8a04a1f3fff1fa07e998e86f7f7a27ae3",0);#senha 123
 
 #ADMIN
-INSERT INTO `cliente`(nome, idade,senha ,tipo ) VALUES("admin"  ,"31","202cb962ac59075b964b07152d234b70",1);#senha 123
+INSERT INTO `cliente`(nome, idade,senha ,tipo ) VALUES("admin"  ,"31","a665a45920422f9d417e4867efdc4fb8a04a1f3fff1fa07e998e86f7f7a27ae3",1);#senha 123
 
 SELECT * FROM `cliente`;

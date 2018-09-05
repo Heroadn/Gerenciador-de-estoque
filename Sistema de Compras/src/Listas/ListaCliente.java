@@ -15,7 +15,7 @@ import Classes.Cliente;
 public class ListaCliente {
 
 	//Adicionar pessoas na lista
-	public void addPessoa(Cliente e) {
+	public void addCliente(Cliente e) {
 		Connection conexao = DBUtils.getConexao();
 		String sql = "insert into cliente " +
                 "(nome, idade, senha,tipo) " +
@@ -58,9 +58,35 @@ public class ListaCliente {
 		return cript;
 	}
 	
-	/*Verifica se o login ja existe no banco de dados*/
-	public void checkRepetido() {
+	/*Verifica se o login pelo nome ja existe no banco de dados*/
+	public boolean checkNomeRepetido(String nome) {
+		//Inicia a conexao com o banco de dados
+		Connection conexao = DBUtils.getConexao();
+		String nome_bd = null;
 		
+		//Procurar pelo nome
+		String sql ="SELECT * FROM cliente where nome like '"+nome+"';";
+		ResultSet rs = null;
+		
+		try {
+			PreparedStatement stmt = conexao.prepareStatement(sql);
+			rs = stmt.executeQuery();
+			
+			//peguar o nome no banco de dados
+			if(rs.first()) {
+				nome_bd = rs.getString("nome");
+			}
+			
+		} catch (SQLException e1) {
+			System.err.println("ListaCliente: checkNomeRepetido: "+e1.getMessage());
+		}
+		
+		//Verificar se os nomes sao iguais
+		if(nome.equalsIgnoreCase(nome_bd)) {
+			return true;
+		}else {
+			return false;
+		}
 	}
 	
 	/*Retorna ResultSet com todos os usuarios*/

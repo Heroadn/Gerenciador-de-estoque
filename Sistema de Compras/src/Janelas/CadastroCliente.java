@@ -26,7 +26,7 @@ public class CadastroCliente extends JFrame {
 
 	/*Função que recebe uma lista de pessoas do JMenu
 	 compartilhando com o resto das janelas*/
-	public CadastroCliente(ListaCliente lp) {
+	public CadastroCliente(ListaCliente lc) {
 		setAlwaysOnTop(true);
 		setTitle("Cadastro de Cliente");
 		setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
@@ -65,26 +65,42 @@ public class CadastroCliente extends JFrame {
 		btnEnviar.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				
-				//Verificar se as senhas digitadas sao iguais.
-				if(senha_campo.getText().equals(senha_confirm.getText())) {
-					Cliente p = new Cliente();
-					p.setNome(nome_campo.getText());
-					p.setIdade(Integer.parseInt(idade_campo.getText()));
-					p.setSenha(senha_campo.getText());
-					
-					//Adicionar a pessoa no banco de dados
-					lp.addPessoa(p);
-					//Limpando os campos de texto
-					nome_campo.setText("");
-					
-					idade_campo.setText("");
-					
-					senha_campo.setText("");
-					
-					senha_confirm.setText("");	
+				//Verificar se os campos estão vazios
+				if(nome_campo.getText().equalsIgnoreCase("") || idade_campo.getText().equalsIgnoreCase("") || 
+			      senha_campo.getText().equalsIgnoreCase("") || senha_campo.getText().equalsIgnoreCase(""))
+				{
+					System.out.println("Campos Vazios");
 				}else {
-					System.err.println("Por favor verifique as senhas digitadas.");
-					//JOptionPane.showMessageDialog(null, "Por favor verifique as senhas digitadas.","Error: ", JOptionPane.ERROR_MESSAGE);
+					
+					//Verficar se o nome ja existe no banco de dados
+					if(lc.checkNomeRepetido(nome_campo.getText())) {
+						System.out.println("Login repetido");
+						
+					}else {
+						//Verificar se as senhas digitadas sao iguais.
+						if(senha_campo.getText().equals(senha_confirm.getText())) {
+							Cliente p = new Cliente();
+							p.setNome(nome_campo.getText());
+							p.setIdade(Integer.parseInt(idade_campo.getText()));
+							p.setSenha(senha_campo.getText());
+							
+							//Adicionar a pessoa no banco de dados
+							lc.addCliente(p);
+							
+							//Limpando os campos de texto
+							nome_campo.setText("");
+							
+							idade_campo.setText("");
+							
+							senha_campo.setText("");
+							
+							senha_confirm.setText("");	
+						}else {
+							System.err.println("Por favor verifique as senhas digitadas.");
+							//JOptionPane.showMessageDialog(null, "Por favor verifique as senhas digitadas.","Error: ", JOptionPane.ERROR_MESSAGE);
+						}
+		
+					}
 				}
 			}
 		});

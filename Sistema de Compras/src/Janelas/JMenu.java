@@ -37,7 +37,7 @@ public class JMenu extends JFrame {
 		JButton btnPessoas = new JButton("Pessoas");
 		btnPessoas.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				ListagemPessoa frame = new ListagemPessoa(lista_pessoas);
+				ListagemCliente frame = new ListagemCliente(lista_pessoas);
 				frame.setVisible(true);
 				dispose();
 			}

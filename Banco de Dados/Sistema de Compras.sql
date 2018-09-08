@@ -42,6 +42,10 @@ INSERT INTO `cliente`(nome, idade,senha ,tipo, saldo )
 INSERT INTO `cliente`(nome, idade,senha ,tipo) 
 	VALUES("admin"  ,"31","a665a45920422f9d417e4867efdc4fb8a04a1f3fff1fa07e998e86f7f7a27ae3",1);#senha 123
 
+#Produto Inicial
+INSERT INTO `produto`(nome, valor) 
+	VALUES("Melancia"  ,"10.0");
+	
 SELECT * FROM `cliente`;
 SELECT * FROM `produto`;
 

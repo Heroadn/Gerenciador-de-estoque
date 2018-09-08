@@ -12,8 +12,8 @@ public class ListaConta extends ListaCliente{
 	int senha;
 	String nome;
 	
-	/*Retorna ResultSet com todos os usuarios*/
-	public ResultSet getUser(String nome, String senha) {
+	/*Retorna ResultSet se o login de usuario for encontrado no db*/
+	public ResultSet verificarLogin(String nome, String senha) {
 		//Inciando conexao com banco de dados
 		Connection conexao = DBUtils.getConexao();
 		
@@ -29,5 +29,24 @@ public class ListaConta extends ListaCliente{
 			System.err.println("ListaCliente: "+e1.getMessage());
 		}
 		return rs;
-}
+	}
+	
+	/*Retorna ResultSet se o login de usuario for encontrado no db*/
+	public ResultSet getUser(String nome) {
+		//Inciando conexao com banco de dados
+		Connection conexao = DBUtils.getConexao();
+		
+		//SQL a ser execultado
+		String sql = "SELECT * FROM cliente where nome like '"+nome+"';";
+		ResultSet rs = null;
+		
+		try {
+			PreparedStatement stmt = conexao.prepareStatement(sql);
+			rs = stmt.executeQuery();
+			
+		} catch (SQLException e1) {
+			System.err.println("ListaCliente: "+e1.getMessage());
+		}
+		return rs;
+	}
 }

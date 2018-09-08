@@ -24,9 +24,7 @@ public class ListagemProduto extends JFrame {
 	//JTable
 	private JTable table;
 	private DefaultTableModel tm;
-	
 	private JButton btnDelete;
-	private JButton btnVoltar;
 	
 	//Construtor
 	public ListagemProduto(ListaProduto lc) {
@@ -66,6 +64,7 @@ public class ListagemProduto extends JFrame {
 				//pegua como paramentros lista de produtos
 				CadastroProduto frame = new CadastroProduto(lc);
 				frame.setVisible(true);
+				dispose();
 			}
 		});
 		btnAdd.setBounds(36, 328, 89, 23);
@@ -83,27 +82,6 @@ public class ListagemProduto extends JFrame {
 		});
 		btnDelete.setBounds(152, 328, 89, 23);
 		contentPane.add(btnDelete);
-		
-		//Volta para o JMenu
-		btnVoltar = new JButton("Voltar");
-		btnVoltar.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e) {
-				//Cria a janela JMenu
-				EventQueue.invokeLater(new Runnable() {
-					public void run() {
-						try {
-							JMenu frame = new JMenu();
-							frame.setVisible(true);
-							dispose();
-						} catch (Exception e) {
-							e.printStackTrace();
-						}
-					}
-				});
-			}
-		});
-		btnVoltar.setBounds(262, 328, 89, 23);
-		contentPane.add(btnVoltar);
 }
 
 //Insere na tabela o conteudo do banco de dados referente a Produtos
@@ -111,7 +89,7 @@ public void insertRow(ListaProduto lc) {
 	ResultSet rs = lc.getProdutoSelect();
 	try {
 		while(rs.next()){
-			tm.addRow(new String[]{String.valueOf(rs.getString("cod")),
+			tm.addRow(new String[]{String.valueOf(rs.getString("id")),
 		              rs.getString("nome"),String.valueOf(rs.getString("valor"))});
 		}
 	} catch (SQLException e1) {System.out.println("Erro: "+e1.getMessage());}

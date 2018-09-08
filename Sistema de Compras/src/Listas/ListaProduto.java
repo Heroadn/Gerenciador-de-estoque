@@ -11,7 +11,7 @@ import Classes.DBUtils;
 public class ListaProduto {
 
 	//Adicionar coisas a lista
-	public void addProduto(Produto e) {
+	public static void addProduto(Produto e) {
 		//Inicia a conexao com banco de dados
 		Connection conexao = DBUtils.getConexao();
 		String sql = "insert into produto " +
@@ -29,7 +29,7 @@ public class ListaProduto {
 	}
 	
 	/*Retorna ResultSet com todos os produtos*/
-	public ResultSet getProdutoSelect() {
+	public static ResultSet getProdutoSelect() {
 		//Inicializando conexao com banco de dados
 		Connection conexao = DBUtils.getConexao();
 		

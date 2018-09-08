@@ -1,27 +1,25 @@
 package Classes;
 
-import java.util.LinkedList;
-
 public class Cliente {
 	
-	int cod;
+	int id;
 	
 	int idade;
 	
 	int tipo;
 	
+	double saldo;
+	
 	String nome;
 	
-	String senha;
-	
-	LinkedList<Produto> lista;		
+	String senha;	
 
-	public int getCod() {
-		return cod;
+	public int getId() {
+		return id;
 	}
 
-	public void setCod(int cod) {
-		this.cod = cod;
+	public void setId(int id) {
+		this.id = id;
 	}
 
 	public int getIdade() {
@@ -40,14 +38,6 @@ public class Cliente {
 		this.nome = nome;
 	}
 
-	public LinkedList<Produto> getLista() {
-		return lista;
-	}
-
-	public void setLista(LinkedList<Produto> lista) {
-		this.lista = lista;
-	}
-
 	public int getTipo() {
 		return tipo;
 	}
@@ -63,7 +53,13 @@ public class Cliente {
 	public void setSenha(String senha) {
 		this.senha = senha;
 	}
-	
-	
+
+	public double getSaldo() {
+		return saldo;
+	}
+
+	public void setSaldo(double saldo) {
+		this.saldo = saldo;
+	}
 
 }

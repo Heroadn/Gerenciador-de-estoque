@@ -6,7 +6,11 @@ import javax.swing.JFrame;
 import javax.swing.JPanel;
 import javax.swing.border.EmptyBorder;
 
+import Classes.Sessao;
+import Listas.ListaCliente;
 import Listas.ListaConta;
+import Listas.ListaProduto;
+
 import javax.swing.JButton;
 import java.awt.event.ActionListener;
 import java.sql.ResultSet;
@@ -27,9 +31,10 @@ public class Login extends JFrame {
 	private JTextField nome_campo;
 	private JTextField senha_campo;
 	
-	/**
-	 * Launch the application.
-	 */
+	private ListaCliente lista_cliente = new ListaCliente(); 
+	private ListaProduto lista_produto = new ListaProduto();
+	private Sessao session;
+	
 	public static void main(String[] args) {
 		EventQueue.invokeLater(new Runnable() {
 			public void run() {
@@ -43,6 +48,7 @@ public class Login extends JFrame {
 		});
 	}
 
+	//Construtor
 	public Login() {
 		setTitle("Login");
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
@@ -52,17 +58,6 @@ public class Login extends JFrame {
 		setContentPane(contentPane);
 		contentPane.setLayout(null);
 		setLocationRelativeTo(null);
-		
-		//Botao responsavel pelo login e redirecionamento para a listagem de pessoas
-		JButton btnNewButton = new JButton("Acessar");
-		btnNewButton.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e) {
-				//Metodo de login
-				login(nome_campo.getText(), senha_campo.getText());
-			}
-		});
-		btnNewButton.setBounds(86, 193, 235, 38);
-		contentPane.add(btnNewButton);
 		
 		//JTextFild
 		nome_campo = new JTextField();
@@ -89,34 +84,98 @@ public class Login extends JFrame {
 		login.setFont(new Font("Tahoma", Font.PLAIN, 30));
 		login.setBounds(86, 24, 122, 37);
 		contentPane.add(login);
+		
+		//Botao responsavel pelo login e redirecionamento para a listagem de pessoas
+		JButton acessar = new JButton("Acessar");
+		acessar.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				
+				//Metodo de login
+				logar(nome_campo.getText(), senha_campo.getText());
+				
+			}
+		});
+		acessar.setBounds(86, 193, 122, 38);
+		contentPane.add(acessar);
+		
+		//Botão responsvel por registart usuarios
+		JButton reegistrar = new JButton("Registrar");
+		reegistrar.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				
+				//Pegua como paramentros lista de Cliente
+				CadastroCliente frame = new CadastroCliente(lista_cliente);
+				frame.setVisible(true);
+				
+			}
+		});
+		reegistrar.setBounds(218, 193, 122, 38);
+		contentPane.add(reegistrar);
 	}
 	
+	//Chama o Menu de Admin
+	public void callAdminMenu() {
+		EventQueue.invokeLater(new Runnable() {	
+			public void run() {
+				try {
+					JMenu frame = new JMenu(lista_cliente, lista_produto);
+					frame.setVisible(true);
+					
+					//Fechar a tela mas manter o programa ativo
+					dispose();
+				} catch (Exception e) {
+					e.printStackTrace();
+				}
+			}
+		});
+	}
+	
+	//Chama o Menu de Usuario
+		public void callUserMenu() {
+			EventQueue.invokeLater(new Runnable() {	
+				public void run() {
+					try {
+						JCompra frame = new JCompra(lista_cliente ,lista_produto ,session);
+						frame.setVisible(true);
+						
+						//Fechar a tela mas manter o programa ativo
+						dispose();
+					} catch (Exception e) {
+						e.printStackTrace();
+					}
+				}
+			});
+		}
+	
 	//Metodo que confere as informaçoes e redicreciona a JMenu se o login existir no DB
-	public void login(String nome,	String senha) {
+	public void logar(String nome,	String senha) {
 		//Peguando os Usuarios do Banco de Dados
 		ListaConta user = new ListaConta();
 		
 		try {
 			//Fazendo Busca no banco de dados
-			ResultSet rs = user.getUser(nome, user.criptografar(senha));
+			ResultSet rs = user.verificarLogin(nome, user.criptografar(senha));
 			
 			//Peguar o  primeiro resultado do ResultSet
 			if(rs.first()){
 				if(nome.equalsIgnoreCase(rs.getString("nome")) && user.criptografar(senha).equalsIgnoreCase(rs.getString("senha")) ){
-					//Chamada do JMenu que contem os botes que levam a ListagemPessoas e ListagemCoisas
-					EventQueue.invokeLater(new Runnable() {	
-						public void run() {
-							try {
-								JMenu frame = new JMenu();
-								frame.setVisible(true);
-								
-								//Fechar a tela mas manter o programa ativo
-								dispose();
-							} catch (Exception e) {
-								e.printStackTrace();
-							}
-						}
-					});
+					
+					//Inicializando a sessao de usuario
+					session = new Sessao();
+					session.setName(rs.getString("nome"));
+					session.setId(Integer.parseInt(rs.getString("id")));
+					session.setIdade(Integer.parseInt(rs.getString("idade")));
+					
+					//Verificar o tipo da Conta
+					if(rs.getString("tipo").equalsIgnoreCase("0"))
+					{
+						//Usuario Comun 
+						callUserMenu();
+						
+					}else {
+						//Usuario Admin
+						callAdminMenu();
+					}
 				}
 			}else {
 				JOptionPane.showMessageDialog(null, "Por favor verifique as informaçoes digitadas.", "Erro:",JOptionPane.WARNING_MESSAGE);
@@ -127,5 +186,4 @@ public class Login extends JFrame {
 			System.out.println("Login: "+"Error: "+e1.getMessage());
 		}
 	}
-	
 }

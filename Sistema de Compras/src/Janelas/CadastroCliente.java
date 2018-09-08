@@ -83,6 +83,7 @@ public class CadastroCliente extends JFrame {
 							p.setNome(nome_campo.getText());
 							p.setIdade(Integer.parseInt(idade_campo.getText()));
 							p.setSenha(senha_campo.getText());
+							p.setSaldo(0);
 							
 							//Adicionar a pessoa no banco de dados
 							lc.addCliente(p);

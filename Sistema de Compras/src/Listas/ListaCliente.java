@@ -9,11 +9,35 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+
+import com.mysql.cj.Session;
+
 import Classes.DBUtils;
+import Classes.Sessao;
 import Classes.Cliente;
 
 public class ListaCliente {
-
+	
+	public void comprarProduto(Sessao s, ListaCliente lc, int prod_id, double valor) throws SQLException {
+		Connection conexao = DBUtils.getConexao();
+		String sql = "insert into compra " +
+                "(id_cliente, id_produto) " +
+                "values (?,?)";
+		
+		String nome_cliente = s.getName();//Nome do Cliente
+		int id_cliente = s.getId();//Id do Cliente
+		int id_produto = prod_id;//Codigo do produto
+		
+		descontar(nome_cliente, id_cliente, valor);
+		
+		//Adicionao item a lista de compras do cliente
+		PreparedStatement stmt = conexao.prepareStatement(sql);
+		stmt.setString(1, String.valueOf(id_cliente));
+		stmt.setString(2, String.valueOf(id_produto));
+		stmt.execute();
+		stmt.close();
+	}
+	
 	//Adicionar pessoas na lista
 	public void addCliente(Cliente e) {
 		Connection conexao = DBUtils.getConexao();
@@ -47,9 +71,11 @@ public class ListaCliente {
 		String cript    = null;
 		
 		try {
+			//Criptografando a senha do Usuario
 			m = MessageDigest.getInstance("SHA-256");
-			m.update(senha.getBytes("UTF-8"),0,senha.length());
+			m.update(senha.getBytes("UTF-8"), 0 , senha.length());
 			cript = new BigInteger(1,m.digest()).toString(16);
+			
 		} catch (NoSuchAlgorithmException | UnsupportedEncodingException e) {
 			System.out.println("ListaCliente: "+"Erro: "+e.getMessage());
 			
@@ -60,6 +86,7 @@ public class ListaCliente {
 	
 	/*Verifica se o login pelo nome ja existe no banco de dados*/
 	public boolean checkNomeRepetido(String nome) {
+		
 		//Inicia a conexao com o banco de dados
 		Connection conexao = DBUtils.getConexao();
 		String nome_bd = null;
@@ -105,6 +132,43 @@ public class ListaCliente {
 			System.err.println("ListaCliente: "+e1.getMessage());
 		}
 		return rs;
+	}
+	
+	public double getSaldo(String nome, int id) throws SQLException {
+		//Inciando conexao com banco de dados
+		Connection conexao = DBUtils.getConexao();
+		
+		//SQL a ser execultado
+		String sql = "SELECT saldo FROM cliente where nome like '"+nome+"' and id ='"+id+"';";
+		ResultSet rs = null;
+		double saldo;
+		
+		PreparedStatement stmt = conexao.prepareStatement(sql);
+		rs = stmt.executeQuery();
+		
+		//Peguar saldo atual
+		if(rs.first()) {
+			saldo = Double.valueOf(rs.getString("saldo"));
+			return saldo;
+		}else {
+			return 0;
+		}
+		
+	}
+	
+	public void descontar(String nome, int id,double valor) throws SQLException {
+		//Inciando conexao com banco de dados
+		Connection conexao = DBUtils.getConexao();
+		
+		//Atualizar o saldo do usuario, descontando o valor da compra
+		double operation = (getSaldo(nome, id) - valor);
+		System.out.println("Cliente: "+nome+" Saldo:"+operation);
+		String sql = "UPDATE cliente set saldo ='"+operation+"' where nome like'"+nome+"' and id='"+id+"';";
+		int rs;
+
+		PreparedStatement stmt = conexao.prepareStatement(sql);
+		rs = stmt.executeUpdate();
+
 	}
 	
 }

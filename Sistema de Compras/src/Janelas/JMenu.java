@@ -15,15 +15,8 @@ public class JMenu extends JFrame {
 
 	private static final long serialVersionUID = 1L;
 	private JPanel contentPane;
-	
-	//Lista de Pessoas
-	private ListaCliente lista_pessoas = new ListaCliente();
-	
-	//Lista de Coisas
-	private ListaProduto  lista_coisas =  new ListaProduto();
 
-
-	public JMenu() {
+	public JMenu(ListaCliente lista_cliente, ListaProduto lista_produto) {
 		//Criação do JFrame
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		setBounds(100, 100, 450, 300);
@@ -34,10 +27,10 @@ public class JMenu extends JFrame {
 		setLocationRelativeTo(null);//para o frame ficar no meio da tela
 		
 		//JButton que leva a ListagemPessoa
-		JButton btnPessoas = new JButton("Pessoas");
+		JButton btnPessoas = new JButton("Clientes");
 		btnPessoas.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				ListagemCliente frame = new ListagemCliente(lista_pessoas);
+				ListagemCliente frame = new ListagemCliente(lista_cliente);
 				frame.setVisible(true);
 				dispose();
 			}
@@ -49,7 +42,7 @@ public class JMenu extends JFrame {
 		JButton btnCoisas = new JButton("Produto");
 		btnCoisas.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				ListagemProduto frame = new ListagemProduto(lista_coisas);
+				ListagemProduto frame = new ListagemProduto(lista_produto);
 				frame.setVisible(true);
 				dispose();
 			}

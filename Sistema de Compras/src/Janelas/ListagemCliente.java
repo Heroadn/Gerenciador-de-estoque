@@ -3,6 +3,7 @@ package Janelas;
 import java.awt.EventQueue;
 
 import javax.swing.JFrame;
+import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.border.EmptyBorder;
@@ -16,6 +17,8 @@ import java.awt.event.ActionListener;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.awt.event.ActionEvent;
+import javax.swing.ImageIcon;
+import java.awt.Toolkit;
 
 public class ListagemCliente extends JFrame {
 
@@ -26,7 +29,7 @@ public class ListagemCliente extends JFrame {
 	private DefaultTableModel tm;
 	private JButton btnDelete;
 
-	public ListagemCliente(ListaCliente lp) {
+	public ListagemCliente(ListaCliente lc) {
 			setTitle("Cliente");
 			setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
 			setBounds(100, 100, 941, 472);
@@ -53,27 +56,36 @@ public class ListagemCliente extends JFrame {
 			scrollPane.setViewportView(table);
 			
 			//Inserido o conteudo na JTable
-			insertRow(lp);
+			insertRow(lc, tm);
 			
 			//Adiciona a pessoa no banco de dados
 			JButton btnAdd = new JButton("Add");
+			btnAdd.setIcon(new ImageIcon(ListagemCliente.class.getResource("/com/jtattoo/plaf/icons/medium/tree_collapsed_11x11.png")));
+			ListagemCliente ls = this;
 			btnAdd.addActionListener(new ActionListener() {
 				public void actionPerformed(ActionEvent e) {
 					//Pegua como paramentros lista de Cliente
-					CadastroCliente frame = new CadastroCliente(lp);
+					CadastroCliente frame = new CadastroCliente(lc,ls);
 					frame.setVisible(true);
-					dispose();
 				}
 			});
 			btnAdd.setBounds(36, 328, 89, 23);
 			contentPane.add(btnAdd);
 			
+			//Deleta o registro
 			btnDelete = new JButton("Delete");
+			btnDelete.setIcon(new ImageIcon(ListagemCliente.class.getResource("/com/jtattoo/plaf/icons/medium/tree_expanded_11x11.png")));
 			btnDelete.addActionListener(new ActionListener() {
-				//Deleta a Row --Mas atenção nao deleta do banco de dados
+				//Deleta --Mas atenção nao remove do banco de dados
 				public void actionPerformed(ActionEvent e) {
-					if (tm.getRowCount()>0) {
-						tm.removeRow(table.getSelectedRow());
+					if (tm.getRowCount() > 0) {
+						
+						//Garantir que algo foi selecionadao
+						if(table.getSelectedRow() > 0) {
+							tm.removeRow(table.getSelectedRow());
+						}else {
+							JOptionPane.showMessageDialog(null, "Selecione Algo.");
+						}
 					}
 				}
 			});
@@ -81,8 +93,13 @@ public class ListagemCliente extends JFrame {
 			contentPane.add(btnDelete);
 	}
 	
+	public DefaultTableModel getTm() {
+		return this.tm;
+	}
+	
 	//Insere na tabela o conteudo do banco de dados referente a Pessoas
-	public void insertRow(ListaCliente lc) {
+	public void insertRow(ListaCliente lc, DefaultTableModel tm) {
+		tm.setRowCount(0);
 		ResultSet rs = lc.getPessoaSelect();
 		try {
 			while(rs.next()){

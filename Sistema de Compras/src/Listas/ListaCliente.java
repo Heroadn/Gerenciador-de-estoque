@@ -10,6 +10,8 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 
+import javax.swing.table.DefaultTableModel;
+
 import com.mysql.cj.Session;
 
 import Classes.DBUtils;
@@ -58,6 +60,7 @@ public class ListaCliente {
 			stmt.setString(4,"0");//0 para o tipo de conta ser usuario comun
 			stmt.execute();
 			stmt.close();
+			
 			
 		} catch (SQLException e1) {
 			System.err.println("ListaCliente: "+e1.getMessage());
@@ -170,5 +173,16 @@ public class ListaCliente {
 		rs = stmt.executeUpdate();
 
 	}
+	
+	//Insere na tabela o conteudo do banco de dados referente a Pessoas
+		public void insertRow(ListaCliente lc, DefaultTableModel tm) {
+			ResultSet rs = lc.getPessoaSelect();
+			try {
+				while(rs.next()){
+					tm.addRow(new String[]{String.valueOf(rs.getString("id")),
+				              rs.getString("nome"),String.valueOf(rs.getString("idade"))});
+				}
+			} catch (SQLException e1) {System.out.println("Erro: "+e1.getMessage());}
+		}
 	
 }

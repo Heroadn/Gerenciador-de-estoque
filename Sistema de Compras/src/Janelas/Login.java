@@ -17,12 +17,16 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.awt.event.ActionEvent;
 import javax.swing.JTextField;
+import javax.swing.UIManager;
+import javax.swing.UnsupportedLookAndFeelException;
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 
 import java.awt.Font;
 import java.awt.HeadlessException;
 import javax.swing.JPasswordField;
+import java.awt.Toolkit;
+import javax.swing.ImageIcon;
 
 public class Login extends JFrame {
 
@@ -58,6 +62,14 @@ public class Login extends JFrame {
 		setContentPane(contentPane);
 		contentPane.setLayout(null);
 		setLocationRelativeTo(null);
+		
+		//LookAndFell
+		try {
+			UIManager.setLookAndFeel("com.jtattoo.plaf.texture.TextureLookAndFeel");
+		} catch (ClassNotFoundException | InstantiationException | IllegalAccessException
+				| UnsupportedLookAndFeelException e1) {
+			e1.printStackTrace();
+		}
 		
 		//JTextFild
 		nome_campo = new JTextField();
@@ -104,7 +116,7 @@ public class Login extends JFrame {
 			public void actionPerformed(ActionEvent e) {
 				
 				//Pegua como paramentros lista de Cliente
-				CadastroCliente frame = new CadastroCliente(lista_cliente);
+				CadastroCliente frame = new CadastroCliente(lista_cliente, null);
 				frame.setVisible(true);
 				
 			}
@@ -118,7 +130,7 @@ public class Login extends JFrame {
 		EventQueue.invokeLater(new Runnable() {	
 			public void run() {
 				try {
-					JMenu frame = new JMenu(lista_cliente, lista_produto);
+					JMenu frame = new JMenu(lista_cliente, lista_produto, session);
 					frame.setVisible(true);
 					
 					//Fechar a tela mas manter o programa ativo

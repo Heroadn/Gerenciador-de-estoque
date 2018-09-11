@@ -36,18 +36,23 @@ create table compra(
 
 #USER COMUN
 INSERT INTO `cliente`(nome, idade,senha ,tipo, saldo ) 
-	VALUES("default","21","a665a45920422f9d417e4867efdc4fb8a04a1f3fff1fa07e998e86f7f7a27ae3",0, 500);#senha 123
+	VALUES("default","21","a665a45920422f9d417e4867efdc4fb8a04a1f3fff1fa07e998e86f7f7a27ae3",0, 2000);#senha 123
 
 #ADMIN
 INSERT INTO `cliente`(nome, idade,senha ,tipo) 
 	VALUES("admin"  ,"31","a665a45920422f9d417e4867efdc4fb8a04a1f3fff1fa07e998e86f7f7a27ae3",1);#senha 123
 
-#Produto Inicial
+#Produtos Iniciais
 INSERT INTO `produto`(nome, valor) 
 	VALUES("Melancia"  ,"10.0");
+    
+#Produtos Iniciais
+INSERT INTO `produto`(nome, valor) 
+	VALUES("Banana"  ,"100");
 	
 SELECT * FROM `cliente`;
 SELECT * FROM `produto`;
 
 #Mostrar as compras pelo nome
-SELECT produto.* FROM `compra`,`produto` where compra.id_produto = produto.id;
+SELECT produto.* FROM `compra`,`produto`,`cliente` 
+	where compra.id_produto = produto.id and compra.id_cliente = cliente.id and cliente.nome like 'default';

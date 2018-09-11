@@ -17,6 +17,9 @@ import javax.swing.table.DefaultTableModel;
 import Classes.Sessao;
 import Listas.ListaCliente;
 import Listas.ListaProduto;
+import javax.swing.JLabel;
+import java.awt.Font;
+import java.awt.Toolkit;
 
 public class JCompra extends JFrame {
 
@@ -27,12 +30,12 @@ public class JCompra extends JFrame {
 	//JTable
 	private JTable table;
 	private DefaultTableModel tm;
-	private JButton btnDelete;
 	
 
 	//Construtor
 		public JCompra(ListaCliente lc ,ListaProduto lp ,Sessao session) {
-			setTitle("Coisas");
+			setResizable(false);
+			setTitle("Compras");
 			setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
 			setBounds(100, 100, 941, 472);
 			contentPane = new JPanel();
@@ -87,18 +90,22 @@ public class JCompra extends JFrame {
 			btnAdd.setBounds(36, 328, 89, 23);
 			contentPane.add(btnAdd);
 			
-			//Deleta o registro
-			btnDelete = new JButton("Delete");
-			btnDelete.addActionListener(new ActionListener() {
-				//Deleta --Mas atenção nao remove do banco de dados
+			//Lista de Compras
+			JButton btnListaDeCompras = new JButton("Lista de Compras");
+			btnListaDeCompras.addActionListener(new ActionListener() {
 				public void actionPerformed(ActionEvent e) {
-					if (tm.getRowCount()>0) {
-						tm.removeRow(table.getSelectedRow());
-					}
+					//janela que mostra a compra dos clientes
+					ListagemCompra compra = new ListagemCompra(lp, session);
+					compra.setVisible(true);
 				}
 			});
-			btnDelete.setBounds(152, 328, 89, 23);
-			contentPane.add(btnDelete);
+			btnListaDeCompras.setBounds(135, 328, 117, 23);
+			contentPane.add(btnListaDeCompras);
+			
+			JLabel lblNewLabel = new JLabel("Produtos Disponiveis");
+			lblNewLabel.setFont(new Font("Tahoma", Font.PLAIN, 20));
+			lblNewLabel.setBounds(35, 20, 185, 23);
+			contentPane.add(lblNewLabel);
 	}
 
 	//Insere na tabela o conteudo do banco de dados referente a Produtos
@@ -111,5 +118,4 @@ public class JCompra extends JFrame {
 			}
 		} catch (SQLException e1) {System.out.println("Erro: "+e1.getMessage());}
 	}
-
 }

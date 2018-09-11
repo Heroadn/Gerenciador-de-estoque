@@ -47,4 +47,24 @@ public class ListaProduto {
 		return rs;
 	}
 	
+	/*Retorna ResultSet com todos os produtos comprados pelo cliente*/
+	public static ResultSet getCompraCliente(String nome) {
+		//Inicializando conexao com banco de dados
+		Connection conexao = DBUtils.getConexao();
+		
+		//Selecionar todos os produtos
+		String sql = "SELECT produto.* FROM `compra`,`produto`,`cliente` " + 
+				"where compra.id_produto = produto.id and compra.id_cliente = cliente.id and cliente.nome like '"+nome+"';";
+		ResultSet rs = null;
+		
+		try {
+			PreparedStatement stmt = conexao.prepareStatement(sql);
+			rs = stmt.executeQuery();
+			
+		} catch (SQLException e1) {
+			System.err.println("ListaProduto: "+e1.getMessage());
+		}
+		return rs;
+	}
+	
 }

@@ -6,6 +6,7 @@ import javax.swing.JFrame;
 import javax.swing.JPanel;
 import javax.swing.JPasswordField;
 import javax.swing.border.EmptyBorder;
+import javax.swing.table.DefaultTableModel;
 
 import Classes.Cliente;
 import Listas.ListaCliente;
@@ -14,24 +15,26 @@ import javax.swing.JLabel;
 import javax.swing.JButton;
 import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
+import javax.swing.ImageIcon;
 
 public class CadastroCliente extends JFrame {
 
-	private static final long serialVersionUID = 1L;
-	private JPanel contentPane;
-	private JTextField nome_campo;
-	private JTextField idade_campo;
-	private JTextField senha_campo;
-	private JTextField senha_confirm;
+	protected static final long serialVersionUID = 1L;
+	protected JPanel contentPane;
+	protected JTextField nome_campo;
+	protected JTextField idade_campo;
+	protected JTextField senha_campo;
+	protected JTextField senha_confirm;
 
 	/*Função que recebe uma lista de pessoas do JMenu
 	 compartilhando com o resto das janelas*/
-	public CadastroCliente(ListaCliente lc) {
+	public CadastroCliente(ListaCliente lc, ListagemCliente lp) {
 		setAlwaysOnTop(true);
 		setTitle("Cadastro de Cliente");
 		setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
 		setBounds(100, 100, 387, 261);
 		contentPane = new JPanel();
+		
 		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
 		setContentPane(contentPane);
 		contentPane.setLayout(null);
@@ -62,54 +65,18 @@ public class CadastroCliente extends JFrame {
 		
 		//Botao responsavel por enviar as informaçoes do cadastro
 		JButton btnEnviar = new JButton("Enviar");
+		btnEnviar.setIcon(new ImageIcon(CadastroCliente.class.getResource("/com/jtattoo/plaf/icons/large/check_symbol_14x14.png")));
 		btnEnviar.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				
-				//Verificar se os campos estão vazios
-				if(nome_campo.getText().equalsIgnoreCase("") || idade_campo.getText().equalsIgnoreCase("") || 
-			      senha_campo.getText().equalsIgnoreCase("") || senha_campo.getText().equalsIgnoreCase(""))
-				{
-					System.out.println("Campos Vazios");
-				}else {
-					
-					//Verficar se o nome ja existe no banco de dados
-					if(lc.checkNomeRepetido(nome_campo.getText())) {
-						System.out.println("Login repetido");
-						
-					}else {
-						//Verificar se as senhas digitadas sao iguais.
-						if(senha_campo.getText().equals(senha_confirm.getText())) {
-							Cliente p = new Cliente();
-							p.setNome(nome_campo.getText());
-							p.setIdade(Integer.parseInt(idade_campo.getText()));
-							p.setSenha(senha_campo.getText());
-							p.setSaldo(0);
-							
-							//Adicionar a pessoa no banco de dados
-							lc.addCliente(p);
-							
-							//Limpando os campos de texto
-							nome_campo.setText("");
-							
-							idade_campo.setText("");
-							
-							senha_campo.setText("");
-							
-							senha_confirm.setText("");	
-						}else {
-							System.err.println("Por favor verifique as senhas digitadas.");
-							//JOptionPane.showMessageDialog(null, "Por favor verifique as senhas digitadas.","Error: ", JOptionPane.ERROR_MESSAGE);
-						}
-		
-					}
-				}
-			}
-		});
+				efetuarRegistro(lc);
+				lp.insertRow(lc, lp.getTm());
+			}});
 		btnEnviar.setBounds(60, 153, 118, 43);
 		contentPane.add(btnEnviar);
 		
 		//Botao responsavel por dar um dispose na janela("fechar ela, sem fechar o programa junto")
 		JButton btnSair = new JButton("Sair");
+		btnSair.setIcon(new ImageIcon(CadastroCliente.class.getResource("/com/jtattoo/plaf/icons/medium/error_32x32.png")));
 		btnSair.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				dispose();
@@ -138,5 +105,46 @@ public class CadastroCliente extends JFrame {
 		senha_confirm.setColumns(10);
 		senha_confirm.setBounds(145, 116, 135, 20);
 		contentPane.add(senha_confirm);
+	}
+	
+	public void efetuarRegistro(ListaCliente lc) {
+		//Verificar se os campos estão vazios
+		if(nome_campo.getText().equalsIgnoreCase("") || idade_campo.getText().equalsIgnoreCase("") || 
+	      senha_campo.getText().equalsIgnoreCase("") || senha_campo.getText().equalsIgnoreCase(""))
+		{
+			System.out.println("Campos Vazios");
+		}else {
+			
+			//Verficar se o nome ja existe no banco de dados
+			if(lc.checkNomeRepetido(nome_campo.getText())) {
+				System.out.println("Login repetido");
+				
+			}else {
+				//Verificar se as senhas digitadas sao iguais.
+				if(senha_campo.getText().equals(senha_confirm.getText())) {
+					Cliente p = new Cliente();
+					p.setNome(nome_campo.getText());
+					p.setIdade(Integer.parseInt(idade_campo.getText()));
+					p.setSenha(senha_campo.getText());
+					p.setSaldo(0);
+					
+					//Adicionar a pessoa no banco de dados
+					lc.addCliente(p);
+					
+					//Limpando os campos de texto
+					nome_campo.setText("");
+					
+					idade_campo.setText("");
+					
+					senha_campo.setText("");
+					
+					senha_confirm.setText("");	
+				}else {
+					System.err.println("Por favor verifique as senhas digitadas.");
+					//JOptionPane.showMessageDialog(null, "Por favor verifique as senhas digitadas.","Error: ", JOptionPane.ERROR_MESSAGE);
+				}
+
+			}
+		}
 	}
 }

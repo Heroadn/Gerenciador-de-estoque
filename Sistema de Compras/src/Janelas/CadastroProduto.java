@@ -13,6 +13,7 @@ import javax.swing.JLabel;
 import javax.swing.JButton;
 import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
+import javax.swing.ImageIcon;
 
 public class CadastroProduto extends JFrame {
 
@@ -25,7 +26,8 @@ public class CadastroProduto extends JFrame {
 	private JTextField valor_campo;
 	private JButton btnEnviar;
 
-	public CadastroProduto(ListaProduto lc) {
+	public CadastroProduto(ListaProduto lp, ListagemProduto ls) {
+		setTitle("Cadastro Produtos");
 		textField.setColumns(10);
 		setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
 		setBounds(100, 100, 387, 261);
@@ -55,14 +57,15 @@ public class CadastroProduto extends JFrame {
 		
 		//Botao que enviar as informaçoes para a lista no JMenu
 		btnEnviar = new JButton("Enviar");
+		btnEnviar.setIcon(new ImageIcon(CadastroProduto.class.getResource("/com/jtattoo/plaf/icons/medium/check_symbol_12x12.png")));
 		btnEnviar.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				Produto c = new Produto();
 				c.setNome(nome_campo.getText());
 				c.setValor(Integer.parseInt(valor_campo.getText()));
 				//Adicionando na lista
-				lc.addProduto(c);
-				
+				lp.addProduto(c);
+				ls.insertRow(lp, ls.getTm());
 				nome_campo.setText("");
 				valor_campo.setText("");
 			}
@@ -72,6 +75,7 @@ public class CadastroProduto extends JFrame {
 		
 		//Botao responsavel por dar um dispose na janela("fechar ela, sem fechar o programa junto")
 				JButton btnSair = new JButton("Sair");
+				btnSair.setIcon(new ImageIcon(CadastroProduto.class.getResource("/com/jtattoo/plaf/icons/medium/error_32x32.png")));
 				btnSair.addActionListener(new ActionListener() {
 					public void actionPerformed(ActionEvent e) {
 						dispose();

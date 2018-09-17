@@ -53,7 +53,7 @@ public class JCompra extends JFrame {
 					new Object[][] {
 					},
 					new String[] {
-						"Codigo", "Nome", "Valor"
+						"Codigo", "Nome", "Valor", "Quantidade"
 					}
 				);
 			table = new JTable();
@@ -75,7 +75,9 @@ public class JCompra extends JFrame {
 						String valor    = String.valueOf(table.getValueAt(table.getSelectedRow(), 2));
 						
 						try {
-							lc.comprarProduto(session ,lc , Integer.parseInt(id_prod), Double.parseDouble(valor));
+							//Adicionar a lista de compras e descontar saldo e estoque
+							lc.comprarProduto(session ,lc ,lp , Integer.parseInt(id_prod), Double.parseDouble(valor));
+							insertRow(lp);
 							JOptionPane.showMessageDialog(null, "Compra relizada com sucesso");
 						} catch (NumberFormatException | SQLException e1) {
 							e1.printStackTrace();
@@ -110,11 +112,12 @@ public class JCompra extends JFrame {
 
 	//Insere na tabela o conteudo do banco de dados referente a Produtos
 	public void insertRow(ListaProduto lp) {
+		tm.setRowCount(0);
 		ResultSet rs = lp.getProdutoSelect();
 		try {
 			while(rs.next()){
 				tm.addRow(new String[]{String.valueOf(rs.getString("id")),
-			              rs.getString("nome"),String.valueOf(rs.getString("valor"))});
+			              rs.getString("nome"),String.valueOf(rs.getString("valor")),String.valueOf(rs.getString("quantidade"))});
 			}
 		} catch (SQLException e1) {System.out.println("Erro: "+e1.getMessage());}
 	}

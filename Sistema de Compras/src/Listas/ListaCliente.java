@@ -20,7 +20,7 @@ import Classes.Cliente;
 
 public class ListaCliente {
 	
-	public void comprarProduto(Sessao s, ListaCliente lc, int prod_id, double valor) throws SQLException {
+	public void comprarProduto(Sessao s, ListaCliente lc, ListaProduto lp, int prod_id, double valor) throws SQLException {
 		Connection conexao = DBUtils.getConexao();
 		String sql = "insert into compra " +
                 "(id_cliente, id_produto) " +
@@ -30,7 +30,9 @@ public class ListaCliente {
 		int id_cliente = s.getId();//Id do Cliente
 		int id_produto = prod_id;//Codigo do produto
 		
+		//Desconta o valor da conta do cliente
 		descontar(nome_cliente, id_cliente, valor);
+		lp.tirarEstoque(prod_id);
 		
 		//Adicionao item a lista de compras do cliente
 		PreparedStatement stmt = conexao.prepareStatement(sql);
@@ -44,13 +46,14 @@ public class ListaCliente {
 	public void addCliente(Cliente e) {
 		Connection conexao = DBUtils.getConexao();
 		String sql = "insert into cliente " +
-                "(nome, idade, senha,tipo) " +
-                "values (?,?,?,?)";
+                "(nome, idade, senha,tipo,saldo) " +
+                "values (?,?,?,?,?)";
 		
 		try {
 			
 			String nome  = e.getNome();
 			String senha = e.getSenha();
+			double saldo = e.getSaldo();
 			String idade = String.valueOf(e.getIdade());
 			
 			PreparedStatement stmt = conexao.prepareStatement(sql);
@@ -58,6 +61,7 @@ public class ListaCliente {
 			stmt.setString(2, idade);
 			stmt.setString(3,criptografar(senha));
 			stmt.setString(4,"0");//0 para o tipo de conta ser usuario comun
+			stmt.setDouble(5, saldo);
 			stmt.execute();
 			stmt.close();
 			

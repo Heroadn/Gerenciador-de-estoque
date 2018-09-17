@@ -50,7 +50,7 @@ public class ListagemProduto extends JFrame {
 				new Object[][] {
 				},
 				new String[] {
-					"Codigo", "Nome", "Valor"
+					"Codigo", "Nome", "Valor", "Quantidade"
 				}
 			);
 		table = new JTable();
@@ -107,7 +107,7 @@ public void insertRow(ListaProduto lc, DefaultTableModel tm) {
 	try {
 		while(rs.next()){
 			tm.addRow(new String[]{String.valueOf(rs.getString("id")),
-		              rs.getString("nome"),String.valueOf(rs.getString("valor"))});
+		              rs.getString("nome"),String.valueOf(rs.getString("valor")),String.valueOf(rs.getString("quantidade"))});
 		}
 	} catch (SQLException e1) {System.out.println("Erro: "+e1.getMessage());}
 }

@@ -25,6 +25,7 @@ public class CadastroProduto extends JFrame {
 	private JTextField nome_campo;
 	private JTextField valor_campo;
 	private JButton btnEnviar;
+	private JTextField quant_campo;
 
 	public CadastroProduto(ListaProduto lp, ListagemProduto ls) {
 		setTitle("Cadastro Produtos");
@@ -38,22 +39,31 @@ public class CadastroProduto extends JFrame {
 		setLocationRelativeTo(null);
 		
 		nome_campo = new JTextField();
-		nome_campo.setBounds(145, 42, 135, 20);
+		nome_campo.setBounds(139, 21, 135, 20);
 		contentPane.add(nome_campo);
 		nome_campo.setColumns(10);
 		
 		valor_campo = new JTextField();
-		valor_campo.setBounds(145, 85, 135, 20);
+		valor_campo.setBounds(139, 61, 135, 20);
 		contentPane.add(valor_campo);
 		valor_campo.setColumns(10);
 		
+		quant_campo = new JTextField();
+		quant_campo.setColumns(10);
+		quant_campo.setBounds(139, 101, 135, 20);
+		contentPane.add(quant_campo);
+		
 		JLabel nome = new JLabel("Nome");
-		nome.setBounds(89, 45, 46, 14);
+		nome.setBounds(73, 24, 56, 14);
 		contentPane.add(nome);
 		
 		JLabel valor = new JLabel("Valor");
-		valor.setBounds(89, 88, 46, 14);
+		valor.setBounds(73, 64, 56, 14);
 		contentPane.add(valor);
+		
+		JLabel lblQuantidade = new JLabel("Quantidade");
+		lblQuantidade.setBounds(73, 104, 56, 14);
+		contentPane.add(lblQuantidade);
 		
 		//Botao que enviar as informaçoes para a lista no JMenu
 		btnEnviar = new JButton("Enviar");
@@ -62,7 +72,8 @@ public class CadastroProduto extends JFrame {
 			public void actionPerformed(ActionEvent e) {
 				Produto c = new Produto();
 				c.setNome(nome_campo.getText());
-				c.setValor(Integer.parseInt(valor_campo.getText()));
+				c.setValor(Double.parseDouble(valor_campo.getText()));
+				c.setQuantidade(Integer.parseInt(quant_campo.getText()));
 				//Adicionando na lista
 				lp.addProduto(c);
 				ls.insertRow(lp, ls.getTm());
@@ -84,5 +95,4 @@ public class CadastroProduto extends JFrame {
 				btnSair.setBounds(188, 153, 118, 43);
 				contentPane.add(btnSair);
 	}
-	
 }

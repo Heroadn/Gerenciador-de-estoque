@@ -4,7 +4,9 @@ public class Produto {
 
 	int cod;
 	
-	int valor;
+	double valor;
+	
+	int quantidade;
 	
 	String nome;
 
@@ -16,12 +18,12 @@ public class Produto {
 		this.cod = cod;
 	}
 
-	public int getValor() {
+	public double getValor() {
 		return valor;
 	}
 
-	public void setValor(int valor) {
-		this.valor = valor;
+	public void setValor(double d) {
+		this.valor = d;
 	}
 
 	public String getNome() {
@@ -31,6 +33,16 @@ public class Produto {
 	public void setNome(String nome) {
 		this.nome = nome;
 	}
+
+	public int getQuantidade() {
+		return quantidade;
+	}
+
+	public void setQuantidade(int quantidade) {
+		this.quantidade = quantidade;
+	}
+	
+	
 	
 	
 }

@@ -21,6 +21,8 @@ import java.awt.Toolkit;
 
 public class ListagemCompra extends JFrame {
 
+	private static final long serialVersionUID = -697540332422979684L;
+	
 		//JTable
 		private JTable table;
 		private DefaultTableModel tm;

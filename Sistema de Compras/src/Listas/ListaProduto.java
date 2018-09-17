@@ -15,13 +15,14 @@ public class ListaProduto {
 		//Inicia a conexao com banco de dados
 		Connection conexao = DBUtils.getConexao();
 		String sql = "insert into produto " +
-                "(nome, valor) " +
-                "values (?,?)";
+                "(nome, valor, quantidade) " +
+                "values (?,?,?)";
 		
 		try {
 			PreparedStatement stmt = conexao.prepareStatement(sql);
 			stmt.setString(1, e.getNome());
 			stmt.setString(2, String.valueOf(e.getValor()));
+			stmt.setString(3, String.valueOf(e.getQuantidade()));
 			stmt.execute();
 		} catch (SQLException e1) {
 			System.err.println("ListaProduto: "+e1.getMessage());
@@ -65,6 +66,43 @@ public class ListaProduto {
 			System.err.println("ListaProduto: "+e1.getMessage());
 		}
 		return rs;
+	}
+	
+	public int getEstoque(int prod_id) throws SQLException {
+		//Inciando conexao com banco de dados
+		Connection conexao = DBUtils.getConexao();
+		
+		//SQL a ser execultado
+		String sql = "SELECT quantidade FROM produto where  id ='"+prod_id+"';";
+		ResultSet rs = null;
+		int quantidade;
+		
+		PreparedStatement stmt = conexao.prepareStatement(sql);
+		rs = stmt.executeQuery();
+		
+		//Peguar saldo atual
+		if(rs.first()) {
+			quantidade = Integer.valueOf(rs.getString("quantidade"));
+			return quantidade;
+		}else {
+			return 0;
+		}
+		
+	}
+	
+	public void tirarEstoque(int prod_id) throws SQLException {
+		int quant_comprada = 1;
+		Connection conexao = DBUtils.getConexao();
+		double operation = (getEstoque(prod_id) - quant_comprada);
+		
+		//Tirando do Estoque o produto
+		String sql = "UPDATE produto set quantidade ='"+operation+"' where id='"+prod_id+"';";
+		
+		//Adicionao item a lista de compras do cliente
+		PreparedStatement stmt = conexao.prepareStatement(sql);
+		stmt.execute();
+		stmt.close();
+		
 	}
 	
 }

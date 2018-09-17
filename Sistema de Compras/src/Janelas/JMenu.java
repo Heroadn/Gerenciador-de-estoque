@@ -14,7 +14,6 @@ import java.awt.event.ActionEvent;
 import javax.swing.JSeparator;
 import javax.swing.JLabel;
 import java.awt.Toolkit;
-import java.awt.Font;
 
 public class JMenu extends JFrame {
 
@@ -76,10 +75,5 @@ public class JMenu extends JFrame {
 		JLabel lblIdade_1 = new JLabel("Idade");
 		lblIdade_1.setBounds(10, 187, 46, 14);
 		contentPane.add(lblIdade_1);
-		
-		JLabel lblBenvindoAdministrador = new JLabel("Benvindo Administrador");
-		lblBenvindoAdministrador.setFont(new Font("Tahoma", Font.PLAIN, 15));
-		lblBenvindoAdministrador.setBounds(10, 24, 179, 14);
-		contentPane.add(lblBenvindoAdministrador);
 	}
 }

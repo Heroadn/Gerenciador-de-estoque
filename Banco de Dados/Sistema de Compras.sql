@@ -20,7 +20,8 @@ create table `cliente`(
 create table `produto`(
     id integer primary key auto_increment,
     nome varchar(30) not null,
-    valor integer not null
+    valor integer not null,
+	quantidade integer(4) not null
 );
 
 #########################
@@ -43,12 +44,12 @@ INSERT INTO `cliente`(nome, idade,senha ,tipo)
 	VALUES("admin"  ,"31","a665a45920422f9d417e4867efdc4fb8a04a1f3fff1fa07e998e86f7f7a27ae3",1);#senha 123
 
 #Produtos Iniciais
-INSERT INTO `produto`(nome, valor) 
-	VALUES("Melancia"  ,"10.0");
+INSERT INTO `produto`(nome, valor, quantidade) 
+	VALUES("Melancia"  ,"10.0", 1000);
     
 #Produtos Iniciais
-INSERT INTO `produto`(nome, valor) 
-	VALUES("Banana"  ,"100");
+INSERT INTO `produto`(nome, valor, quantidade) 
+	VALUES("Banana"  ,"100", 1000);
 	
 SELECT * FROM `cliente`;
 SELECT * FROM `produto`;

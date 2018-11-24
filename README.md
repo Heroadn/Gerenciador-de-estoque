@@ -8,7 +8,7 @@ Um aplicativo feito em java, usando conceitos como armazenamento das informaçõ
 <ul>
   <li><h2>Critico</h2></li>
    <ul>
-      Estoque passando de 0 ,ex -2 produto;<br>
+      Estoque passando de 0 ,ex -2 produto;
    </ul>
   
   <li><h2>Necessário</h2></li>
@@ -16,6 +16,7 @@ Um aplicativo feito em java, usando conceitos como armazenamento das informaçõ
        Otimizar Sql(Criando classes Modelo);
        Criar modelo de table(AbstractTableModel);
        Adicionar Visualização de Imagens do produto(+ coluna no BD);
+       Geração de Relatorios(ex: sobre vendas);
     </ul>
    
   <li><h2>Opcional</h2></li>

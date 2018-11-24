@@ -2,6 +2,8 @@ Um aplicativo feito em java, usando conceitos como armazenamento das informaçõ
 
 To-Do
 
-#Otimizar Sql;
-#Estoque passando de 0 ,ex -2 produto;
-#(Opcional) Porta para o Spring Boot
+#Otimizar Sql;<br>
+
+#Estoque passando de 0 ,ex -2 produto;<br>
+
+#(Opcional) Porta para o Spring Boot<br>

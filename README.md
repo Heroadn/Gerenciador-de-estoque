@@ -13,8 +13,9 @@ Um aplicativo feito em java, usando conceitos como armazenamento das informaçõ
   
   <li><h2>Necessário</h2></li>
      <ul>
-       Otimizar Sql(Criando classes Modelo);<br>
-       Criar modelo de table(AbstractTableModel);<br>
+       Otimizar Sql(Criando classes Modelo);
+       Criar modelo de table(AbstractTableModel);
+       Adicionar Visualização de Imagens do produto(+ coluna no BD);
     </ul>
    
   <li><h2>Opcional</h2></li>

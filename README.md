@@ -8,21 +8,21 @@ Um aplicativo feito em java, usando conceitos como armazenamento das informaçõ
 <ul>
   <li><h2>Critico</h2></li>
    <ul>
-      Estoque passando de 0 ,ex -2 produto;
+      <li>Estoque passando de 0 ,ex -2 produto;</li>
    </ul>
   
   <li><h2>Necessário</h2></li>
      <ul>
-       Otimizar Sql(Criando classes Modelo);
-       Criar modelo de table(AbstractTableModel);
-       Adicionar Visualização de Imagens do produto(+ coluna no BD);
-       Geração de Relatorios(ex: sobre vendas);
+       <li>Otimizar Sql(Criando classes Modelo);</li>
+       <li>Criar modelo de table(AbstractTableModel);</li>
+       <li>Adicionar Visualização de Imagens do produto(+ coluna no BD);</li>
+       <li>Geração de Relatorios(ex: sobre vendas);</li>
     </ul>
    
   <li><h2>Opcional</h2></li>
     <ul>
-       Melhorar interface de usuario;<br>
-       Porta para o Spring Boot(possivel novo projeto completo);<br>
+      <li>Melhorar interface de usuario;</li>
+      <li>Porta para o Spring Boot(possivel novo projeto completo);</li>
     </ul>
 
 </ul>

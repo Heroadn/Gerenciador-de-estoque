@@ -20,7 +20,7 @@ Um aplicativo feito em java, usando conceitos como armazenamento das informaçõ
   <li><h2>Opcional</h2></li>
     <ul>
        Melhorar interface de usuario;<br>
-       Porta para o Spring Boot;<br>
+       Porta para o Spring Boot(possivel novo projeto completo);<br>
     </ul>
 
 </ul>

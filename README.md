@@ -16,6 +16,7 @@ Um aplicativo feito em java, usando conceitos como armazenamento das informaçõ
        <li>Otimizar Sql(Criando classes Modelo);</li>
        <li>Criar modelo de table(AbstractTableModel);</li>
        <li>Adicionar Visualização de Imagens do produto(+ coluna no BD);</li>
+       <li>Geração de Codigo de Barras(ex: sobre vendas);</li>
        <li>Geração de Relatorios(ex: sobre vendas);</li>
     </ul>
    
